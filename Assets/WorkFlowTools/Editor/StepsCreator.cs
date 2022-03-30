@@ -14,6 +14,9 @@ namespace WorkFlowTools.Editor
         public float stepHeight = 0.5f;
         public float stepDepth = 0.5f;
         private Material mat;
+        
+        GameObject[] selected;
+        
         [MenuItem("My Tools/Create Steps")]
         private static void ShowWindow()
         {
@@ -36,16 +39,33 @@ namespace WorkFlowTools.Editor
             stepHeight = EditorGUILayout.FloatField("Height", stepHeight);
             stepDepth = EditorGUILayout.FloatField("Depth", stepDepth);
             //GUILayout.
+            selected = Selection.gameObjects;
             if (GUILayout.Button("Create Steps"))
             {
                 MakeSteps();
             }
-            
+            // make a staircase from A to B points
+            if (GUILayout.Button("Create Steps With Selected"))
+            {
+                MakeStepsWithSelected();
+            }
+        }
+
+        private void MakeStepsWithSelected()
+        {
+            if (selected.Length > 1)
+            {
+
+            }
+            else
+            {
+                Debug.LogWarning("select more points for steps");
+            }
         }
 
         private void MakeSteps()
         {
-            GameObject[] selected = Selection.gameObjects;
+
 
 
             if (selected.Length == 1)
