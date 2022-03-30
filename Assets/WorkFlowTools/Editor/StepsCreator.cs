@@ -90,6 +90,7 @@ namespace WorkFlowTools.Editor
                         stepObject.transform.position = stepPos;
                         step.transform.localPosition = Vector3.zero;
                         step.transform.localScale = new Vector3(stepWidth, stepHeight, stepWidth);
+                        if (mat != null) step.GetComponent<Renderer>().material = mat; // apply mat
                     }
 
                    
