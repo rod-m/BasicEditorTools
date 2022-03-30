@@ -30,15 +30,26 @@ namespace WorkFlowTools.Editor
             GUILayout.Label("Use this tool to make steps");
             
             mat = (Material) EditorGUILayout.ObjectField(mat, typeof(Material), true);
-            numSteps = EditorGUILayout.IntField("Number of Steps", numSteps);
-            
+            GUILayout.BeginHorizontal();
+          //  numSteps = EditorGUILayout.IntField("Number of Steps", numSteps);
+            GUILayout.Label("Number of Steps", GUILayout.Width(115));
+            numSteps = (int) EditorGUILayout.Slider(numSteps, 2, 115);
+            GUILayout.EndHorizontal();
             //numSpirals = EditorGUILayout.IntField("Number of Spirals", numSpirals);
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Number Of Spirals",GUILayout.Width(115));
             numSpirals = (int) EditorGUILayout.Slider(numSpirals, 0, 10);
+            GUILayout.EndHorizontal();
             spiralRadius = EditorGUILayout.FloatField("Spiral Radius", spiralRadius);
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Step:", GUILayout.Width(60));
+            GUILayout.BeginVertical();
             stepWidth = EditorGUILayout.FloatField("Width", stepWidth);
             stepHeight = EditorGUILayout.FloatField("Height", stepHeight);
             stepDepth = EditorGUILayout.FloatField("Depth", stepDepth);
-            //GUILayout.
+            GUILayout.EndVertical();
+            GUILayout.EndHorizontal();
+ 
             selected = Selection.gameObjects;
             if (GUILayout.Button("Create Steps"))
             {
@@ -55,7 +66,34 @@ namespace WorkFlowTools.Editor
         {
             if (selected.Length > 1)
             {
+                // use selected game objects to make steps
+                // to make steps between points simply lerp between the points and add new steps at each position
+                Vector3 from = Vector3.zero;
+                Vector3 to = Vector3.zero;
+                GameObject stepHolder = new GameObject();
+                stepHolder.name = $"Staircase {selected[0].name}";
+                stepHolder.transform.position = Vector3.zero;
+                for (int i = 0; i < selected.Length - 1; i++)
+                {
+                    from = selected[i].transform.position;
+                    to = selected[i+1].transform.position;
+                    for (int j = 0; j < numSteps; j++)
+                    {
+                        float t = (float)j / (float)numSteps;
+                        Vector3 stepPos = Vector3.Lerp(from, to, t);
+                        GameObject stepObject = new GameObject();
+                        GameObject step = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                        stepObject.name = $"step {j}";
+                        step.name = $"step cube {j}";
+                        stepObject.transform.parent = stepHolder.transform;
+                        step.transform.parent = stepObject.transform;
+                        stepObject.transform.position = stepPos;
+                        step.transform.localPosition = Vector3.zero;
+                        step.transform.localScale = new Vector3(stepWidth, stepHeight, stepWidth);
+                    }
 
+                   
+                }
             }
             else
             {
