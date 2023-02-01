@@ -4,6 +4,5 @@ namespace WorkFlowTools
 {
     public class NPCMoveController : MonoBehaviour
     {
-        
     }
 }

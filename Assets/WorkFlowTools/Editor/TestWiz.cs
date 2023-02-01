@@ -7,25 +7,23 @@ namespace WorkFlowTools.Editor
     {
         public string name;
         public Texture2D portrait;
-        [MenuItem("Window/TestXX")]
-        public static void CreateWizard()
-        {
-            DisplayWizard<TestWiz>("TITLE", "CREATE", "OTHER");
-        }
 
         public void OnWizardCreate()
         {
-            
-        }
-
-        public void OnWizardUpdate()
-        {
-
         }
 
         public void OnWizardOtherButton()
         {
+        }
 
+        public void OnWizardUpdate()
+        {
+        }
+
+        [MenuItem("Window/TestXX")]
+        public static void CreateWizard()
+        {
+            DisplayWizard<TestWiz>("TITLE", "CREATE", "OTHER");
         }
     }
 }
