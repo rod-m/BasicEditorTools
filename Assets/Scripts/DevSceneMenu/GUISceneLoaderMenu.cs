@@ -15,12 +15,16 @@ namespace DevSceneMenu
         {
             // here any menu elements can be created like the Canvas
             // Make a background box
-            GUI.Box(new Rect(10,10,100,90), "Loader Menu");
+            int menuCount = SceneManager.sceneCountInBuildSettings;
+            int headerHeight = 40;
+            int buttonHeight = 20;
+            int buttonHeightandGap = 25;
+            GUI.Box(new Rect(10,10,100,headerHeight + buttonHeightandGap * menuCount), "Loader Menu");
             
             //This adds a button for all the scenes currently add to Build Settings
-            for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
+            for (int i = 0; i < menuCount; i++)
             {
-                if(GUI.Button(new Rect(20,40 + (i *25),80,20), $"Scene {i}"))
+                if(GUI.Button(new Rect(20,40 + (i * buttonHeightandGap),80,buttonHeight), $"Scene {i}"))
                 {
                     // Make the first button. Press this button to choose another scene
                     SceneManager.LoadScene(i);
