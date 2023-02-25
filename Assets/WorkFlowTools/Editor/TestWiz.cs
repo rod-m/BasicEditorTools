@@ -5,7 +5,7 @@ namespace WorkFlowTools.Editor
 {
     public class TestWiz : ScriptableWizard
     {
-        public string name;
+        //public string name;
         public Texture2D portrait;
 
         public void OnWizardCreate()

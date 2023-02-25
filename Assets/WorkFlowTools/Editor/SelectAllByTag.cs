@@ -1,16 +1,30 @@
-﻿using UnityEditor;
+﻿using System;
+using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace WorkFlowTools
 {
     public class SelectAllByTag : ScriptableWizard
     {
         public string searchTag;
-
+        public string[] tagsList; // = UnityEditorInternal.InternalEditorUtility.tags;
         public void OnWizardCreate()
         {
-            var findByTag = GameObject.FindGameObjectsWithTag(searchTag);
+            Object[] findByTag = GameObject.FindGameObjectsWithTag(searchTag);
+            Debug.Log($"findByTag {findByTag.Length}");
             Selection.objects = findByTag;
+        }
+
+        private void OnEnable()
+        {
+            tagsList = UnityEditorInternal.InternalEditorUtility.tags;
+        }
+
+        private void OnDisable()
+        {
+            tagsList = null;
         }
 
         public void OnWizardOtherButton()

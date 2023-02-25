@@ -21,11 +21,9 @@ namespace WorkFlowTools.Editor
 
             mat = (Material)EditorGUILayout.ObjectField(mat, typeof(Material), true);
             GUILayout.BeginHorizontal();
-            //  numSteps = EditorGUILayout.IntField("Number of Steps", numSteps);
             GUILayout.Label("Number of Steps", GUILayout.Width(115));
             numSteps = (int)EditorGUILayout.Slider(numSteps, 2, 115);
             GUILayout.EndHorizontal();
-            //numSpirals = EditorGUILayout.IntField("Number of Spirals", numSpirals);
             GUILayout.BeginHorizontal();
             GUILayout.Label("Number Of Spirals", GUILayout.Width(115));
             numSpirals = (int)EditorGUILayout.Slider(numSpirals, 0, 10);
