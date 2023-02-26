@@ -68,7 +68,10 @@ namespace WorkFlowTools.Editor
 
                 int beatSpace = 2;
                 instance.name = beatName;
-                instance.transform.localPosition = new Vector3((j* beatSpace) + (barNumber * numBeats * beatSpace), -i * beatSpace, 0);
+                float xScale = 4.0f / (float)numBeats;
+                instance.transform.localScale = new Vector3(xScale,1 ,1);
+                
+                instance.transform.localPosition = new Vector3((j* beatSpace) + (barNumber * numBeats * beatSpace) + xScale/2, -i * beatSpace, 0);
                 
             }
         }
