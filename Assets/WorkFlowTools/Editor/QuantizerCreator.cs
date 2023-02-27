@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -6,11 +7,23 @@ namespace WorkFlowTools.Editor
     public class QuantizerCreator : EditorWindow
     {
         static public GameObject beatSource;
+        static public List<GameObject> beatPrefabs = new List<GameObject>();
+
         public int numBeats = 4;
         public int barNumber = 0;
         [MenuItem("My Tools/Make Beat")]
         private static void ShowWindow()
         {
+            var beatSources = AssetDatabase.FindAssets("l:Beat");
+            beatPrefabs = new List<GameObject>();
+            foreach (var guid in beatSources)
+            {
+               
+                var b = AssetDatabase.GUIDToAssetPath(guid);
+                Debug.Log($"prefab {b}");
+                var p = AssetDatabase.LoadAssetAtPath<GameObject>(b);
+                beatPrefabs.Add(p);
+            }
             var window = GetWindow<QuantizerCreator>();
             window.titleContent = new GUIContent("Make Beats");
             window.Show();
@@ -20,7 +33,14 @@ namespace WorkFlowTools.Editor
         {
             GUILayout.Label("Use this tool to make quantized prefabs");
             EditorGUILayout.BeginHorizontal();
-            beatSource = EditorGUILayout.ObjectField(beatSource, typeof(GameObject), false) as GameObject;
+             beatSource = EditorGUILayout.ObjectField(beatSource, typeof(GameObject), false) as GameObject;
+             EditorGUILayout.EndHorizontal();
+             EditorGUILayout.BeginHorizontal();
+            foreach (var beatPrefab in beatPrefabs)
+            {
+                // var z = EditorGUILayout.ObjectField(beatPrefab, typeof(GameObject), false) as GameObject;
+                if (GUILayout.Button($"{beatPrefab.name}")) ChoosePrefab(beatPrefab);
+            }
             EditorGUILayout.EndHorizontal();
             GUILayout.BeginHorizontal();
             GUILayout.Label("Number of Beats", GUILayout.Width(115));
@@ -44,6 +64,10 @@ namespace WorkFlowTools.Editor
             GUILayout.EndVertical();
         }
 
+        void ChoosePrefab(GameObject prefab)
+        {
+            beatSource = prefab;
+        }
         void MakeBeat(int i, int j)
         {
             Debug.Log($"make a beat {barNumber} {i} {j}");
@@ -69,7 +93,7 @@ namespace WorkFlowTools.Editor
                 int beatSpace = 2;
                 instance.name = beatName;
                 float xScale = 4.0f / (float)numBeats;
-                instance.transform.localScale = new Vector3(xScale,1 ,1);
+                //instance.transform.localScale = new Vector3(xScale,1 ,1);
                 instance.transform.localPosition = new Vector3((j* beatSpace) + (barNumber * numBeats * beatSpace) + xScale/2, -i * beatSpace, 0);
                 
             }
